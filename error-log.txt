@@ -1,0 +1,30 @@
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation:
+
+
+
+    at Jr.handleRequestError (/data/data/com.termux/files/home/projects/silverstar/node_modules/@prisma/client/runtime/client.js:65:8286)
+    at Jr.handleAndLogRequestError (/data/data/com.termux/files/home/projects/silverstar/node_modules/@prisma/client/runtime/client.js:65:7581)
+    at Jr.request (/data/data/com.termux/files/home/projects/silverstar/node_modules/@prisma/client/runtime/client.js:65:7288)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async a (/data/data/com.termux/files/home/projects/silverstar/node_modules/@prisma/client/runtime/client.js:99:6862)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/forgot-password/route.js:36:22)
+    at async AppRouteRouteModule.do (/data/data/com.termux/files/home/projects/silverstar/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:5:42793)
+    at async AppRouteRouteModule.handle (/data/data/com.termux/files/home/projects/silverstar/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:5:50547)
+    at async responseGenerator (webpack-internal:///(rsc)/./node_modules/next/dist/build/webpack/loaders/next-app-loader/index.js?name=app%2Fapi%2Fforgot-password%2Froute&page=%2Fapi%2Fforgot-password%2Froute&appPaths=&allNormalizedAppPaths=&pagePath=private-next-app-dir%2Fapi%2Fforgot-password%2Froute.js&appDir=%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2Fprojects%2Fsilverstar%2Fsrc%2Fapp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2Fprojects%2Fsilverstar&isDev=true&tsconfigPath=&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D&isGlobalNotFoundEnabled=!:219:30)
+    at async AppRouteRouteModule.handleResponse (/data/data/com.termux/files/home/projects/silverstar/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:1:250061)
+    at async handleResponse (webpack-internal:///(rsc)/./node_modules/next/dist/build/webpack/loaders/next-app-loader/index.js?name=app%2Fapi%2Fforgot-password%2Froute&page=%2Fapi%2Fforgot-password%2Froute&appPaths=&allNormalizedAppPaths=&pagePath=private-next-app-dir%2Fapi%2Fforgot-password%2Froute.js&appDir=%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2Fprojects%2Fsilverstar%2Fsrc%2Fapp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2Fprojects%2Fsilverstar&isDev=true&tsconfigPath=&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D&isGlobalNotFoundEnabled=!:292:32)
+    at async Module.handler (webpack-internal:///(rsc)/./node_modules/next/dist/build/webpack/loaders/next-app-loader/index.js?name=app%2Fapi%2Fforgot-password%2Froute&page=%2Fapi%2Fforgot-password%2Froute&appPaths=&allNormalizedAppPaths=&pagePath=private-next-app-dir%2Fapi%2Fforgot-password%2Froute.js&appDir=%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2Fprojects%2Fsilverstar%2Fsrc%2Fapp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2Fprojects%2Fsilverstar&isDev=true&tsconfigPath=&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D&isGlobalNotFoundEnabled=!:413:9)
+    at async DevServer.renderToResponseWithComponentsImpl (/data/data/com.termux/files/home/projects/silverstar/node_modules/next/dist/server/base-server.js:1537:9)
+    at async DevServer.renderPageComponent (/data/data/com.termux/files/home/projects/silverstar/node_modules/next/dist/server/base-server.js:1589:24)
+    at async DevServer.renderToResponseImpl (/data/data/com.termux/files/home/projects/silverstar/node_modules/next/dist/server/base-server.js:1639:32)
+    at async DevServer.pipeImpl (/data/data/com.termux/files/home/projects/silverstar/node_modules/next/dist/server/base-server.js:1088:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/data/data/com.termux/files/home/projects/silverstar/node_modules/next/dist/server/next-server.js:338:17)
+    at async DevServer.handleRequestImpl (/data/data/com.termux/files/home/projects/silverstar/node_modules/next/dist/server/base-server.js:979:17)
+    at async /data/data/com.termux/files/home/projects/silverstar/node_modules/next/dist/server/dev/next-dev-server.js:426:20
+    at async Span.traceAsyncFn (/data/data/com.termux/files/home/projects/silverstar/node_modules/next/dist/trace/trace.js:164:20)
+    at async DevServer.handleRequest (/data/data/com.termux/files/home/projects/silverstar/node_modules/next/dist/server/dev/next-dev-server.js:422:24)
+    at async invokeRender (/data/data/com.termux/files/home/projects/silverstar/node_modules/next/dist/server/lib/router-server.js:306:21)
+    at async handleRequest (/data/data/com.termux/files/home/projects/silverstar/node_modules/next/dist/server/lib/router-server.js:508:24)
+    at async requestHandlerImpl (/data/data/com.termux/files/home/projects/silverstar/node_modules/next/dist/server/lib/router-server.js:565:13)
+    at async Server.requestListener (/data/data/com.termux/files/home/projects/silverstar/node_modules/next/dist/server/lib/start-server.js:225:13)

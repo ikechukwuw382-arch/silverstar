@@ -1,0 +1,247 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  passwordHash  String
+  role          String   @default("customer")
+  suspended     Boolean  @default(false)
+  kyc           Kyc?
+  passwordResetToken PasswordResetToken?
+  savedPhone         String?
+  savedState         String?
+  savedCity          String?
+  savedAddress       String?
+  savedInstructions  String?
+  listings      Listing[]
+  cartItems     CartItem[]
+  orders        Order[]
+  commissionSettlements CommissionSettlement[]
+  reviews       Review[]
+  shopBio       String?
+  businessName  String?
+  profilePicUrl String?
+  bankName          String?
+  accountNumber     String?
+  accountHolderName String?
+  whatsappNumber    String?
+  isOnVacation      Boolean @default(false)
+  vacationMessage   String?
+  returnsPolicy     String?
+  deliveryZones     VendorDeliveryZone[]
+  customerServiceRequests ServiceRequest[] @relation("CustomerServiceRequests")
+  engineerServiceRequests ServiceRequest[] @relation("EngineerServiceRequests")
+  createdAt     DateTime @default(now())
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  tokenHash String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Kyc {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  fullName    String
+  phoneNumber String
+  address     String
+  idType      String
+  idNumber    String
+  dateOfBirth DateTime
+  idPhotoUrl  String
+  status      String   @default("pending")
+  createdAt   DateTime @default(now())
+}
+
+model Listing {
+  id          String   @id @default(cuid())
+  vendorId    String
+  vendor      User     @relation(fields: [vendorId], references: [id])
+  title       String
+  description String
+  category    String
+  price       Int
+  condition   String   @default("New")
+  imageUrl    String?
+images      String[]  @default([])
+  status      String   @default("active")
+  createdAt   DateTime @default(now())
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+  reviews     Review[]
+
+  @@index([status, category])
+  @@index([status, createdAt])
+  @@index([status, price])
+  @@index([vendorId])
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  listingId String
+  listing   Listing  @relation(fields: [listingId], references: [id])
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, listingId])
+}
+
+model Order {
+  id                   String    @id @default(cuid())
+  userId               String
+  user                 User      @relation(fields: [userId], references: [id])
+  items                OrderItem[]
+  totalAmount          Int
+  status               String    @default("Order Placed")
+  fullName             String
+  phone                String
+  state                String
+  city                 String
+  address              String
+  instructions         String?
+  createdAt            DateTime  @default(now())
+  subtotal             Int       @default(0)
+  deliveryFee          Int       @default(0)
+  paymentStatus        String    @default("UNPAID")
+  checkoutGroupId      String?
+  paymentReference     String?
+  proofImagePath       String?
+  paymentSubmittedAt   DateTime?
+  paymentRejectedReason String?
+refundStatus          String   @default("NONE")
+refund RefundRequest?
+}
+
+model RefundRequest {
+  id              String    @id @default(cuid())
+  orderId         String    @unique
+  order           Order     @relation(fields: [orderId], references: [id])
+  reason          String
+refundBankName    String?
+  refundAccountName String?
+  refundAccountNo   String?
+  status          String    @default("REQUESTED")
+  bankReference   String?
+  receiptImagePath String?
+  vendorNote      String?
+  requestedAt     DateTime  @default(now())
+  submittedAt     DateTime?
+  confirmedAt     DateTime?
+}
+
+model OrderItem {
+  id     String  @id @default(cuid())
+  orderId String
+  order   Order   @relation(fields: [orderId], references: [id])
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id])
+  quantity  Int     @default(1)
+  price     Int
+  commissionRate   Float @default(3)
+  commissionAmount Int   @default(0)
+  vendorNetAmount  Int   @default(0)
+  // Commission settlement status: OUTSTANDING | SUBMITTED | SETTLED
+  payoutStatus String @default("OUTSTANDING")
+  review       Review?
+}
+
+model ServiceRequest {
+  id                 String   @id @default(cuid())
+  requestNumber      String   @unique
+  customerId         String
+  customer           User     @relation("CustomerServiceRequests", fields: [customerId], references: [id])
+  engineerId         String?
+  engineer           User?    @relation("EngineerServiceRequests", fields: [engineerId], references: [id])
+  printerBrand       String
+  printerModel       String
+  serviceType        String
+  problemDescription String
+  phone              String
+  state              String
+  city               String
+  address            String
+  additionalInfo     String?
+  imageUrl           String?
+  status             String   @default("Requested")
+  quote              ServiceQuote?
+  createdAt          DateTime @default(now())
+}
+
+model ServiceQuote {
+  id         String         @id @default(cuid())
+  requestId  String         @unique
+  request    ServiceRequest @relation(fields: [requestId], references: [id])
+  diagnosis  String
+  partsCost  Int
+  labourCost Int
+  totalCost  Int
+  status     String   @default("Pending")
+paymentStatus          String    @default("UNPAID")
+  paymentReference       String?
+  proofImagePath         String?
+  paymentSubmittedAt     DateTime?
+  paymentRejectedReason  String?
+  createdAt  DateTime @default(now())
+}
+
+model PlatformConfig {
+  id             String   @id @default(cuid())
+  commissionRate Float    @default(3)
+  updatedAt      DateTime @updatedAt
+}
+
+model Review {
+  id          String   @id @default(cuid())
+  rating      Int
+  comment     String?
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  listingId   String
+  listing     Listing  @relation(fields: [listingId], references: [id])
+  orderItemId String   @unique
+  orderItem   OrderItem @relation(fields: [orderItemId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model CommissionSettlement {
+  id               String   @id @default(cuid())
+  vendorId         String
+  vendor           User     @relation(fields: [vendorId], references: [id])
+  amountClaimed    Int
+  bankReference    String
+  receiptImagePath String?
+  vendorNote       String?
+  status           String   @default("PENDING_REVIEW")
+  submittedAt      DateTime @default(now())
+  reviewedAt       DateTime?
+  adminNote        String?
+
+  @@index([vendorId])
+  @@index([status])
+}
+
+model VendorDeliveryZone {
+  id        String   @id @default(cuid())
+  vendorId  String
+  vendor    User     @relation(fields: [vendorId], references: [id])
+  areaName  String
+  fee       Int
+  createdAt DateTime @default(now())
+
+  @@index([vendorId])
+}
